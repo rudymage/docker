@@ -10,8 +10,8 @@ sudo chmod 666 /var/run/docker.sock     # docker-compose permission
 #--------------------DOCKER REGISTRY--------------------
 image: docker.io/rudymage/nginx
     registry - docker.io (по дефолту)
-	account - rudymage
-	repository - nginx
+    account - rudymage
+    repository - nginx
 #
 #--------------------DOCKER COMMANDS--------------------
 docker -v                               # версия
