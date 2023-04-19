@@ -1,0 +1,62 @@
+#----------------------------------------------------------------------------------------
+#--------------------INTRODUCTION TO DOCKER BY ILYA RUDAKOV------------------------------
+#----------------------------------------------------------------------------------------
+#
+#--------------------AFTER INSTALL DOCKER--------------------
+sudo groupadd docker					# создание группы docker
+sudo usermod -aG docker $USER			# все команды докер выполняются от sudo
+sudo chmod 666 /var/run/docker.sock     # docker-compose permission
+#
+#--------------------DOCKER REGISTRY--------------------
+image: docker.io/rudymage/nginx
+	registry - docker.io (по дефолту)
+	account - rudymage
+	repository - nginx
+#
+#--------------------DOCKER COMMANDS--------------------
+docker -v								# версия
+docker-compose -v						# версия
+docker login							# вход в аккаунт
+docker inspect <image>					# информация контейнера
+docker logs <image>						# информация контейнера
+docker run <image>:<tag> 				# запуск докера
+docker ps 								# просмотр контейнеров
+docker ps -a            				# просмотр списка всех контейнеров
+docker stop <image>	    				# остановка контейнеров
+docker stop <id>						# остановка контейнеров
+docker rm <image>						# удаление остановленных (stopped)/ завершенных (exited) контейнеров
+docker images	 						# список образов
+docker rmi								# удаление образов при остановленных контейнерах
+docker rmi -f							# удаление образов форсированное
+docker rm -f $(docker ps -aq)        	# удалить все контейнеры
+docker rmi -f $(docker images -q)    	# удалить все образы
+docker pull <image>						# загрузка образа с registry
+docker exec <image> <command> 			# запуск команды в контейнере
+docker run -d <image>					# запуск контейнера как демона ( в фоновом режиме)
+docker attach <image>					# прикрепление к консоли
+docker run -it <image> <sh>				# вход в контейнер bash; -i - интерактивный режим, -t - подключение терминала
+#
+#--------------------DOCKER MAPPING--------------------
+docker run -p <host port>:<container port> <image>  					# маппинг портов; docker run -p 80:5000 rudymage:redos732:empty		
+docker run -v <host catalog>:<container catalog> <image>				# docker run -v /opt/datadir/:/var/lib rudymage:redos732:empty
+#
+#--------------------DOCKER BUILD--------------------
+docker build . -t <account>/<repository>								# docker build . -t rotoro/webapp; в каталоге с Dockerfile
+docker push <image> <account>/<repository>								# docker push <image> rotorocloud/webapp
+docker tag <id> <account>/<repository> 									# docker tag <id> <rotorocloud>/<webapp:ubuntu>
+#
+--------------------DOCKER'S NETWORK--------------------
+Встроенный DNS в docker имеет стандартный адрес ip=127.0.0.11
+#
+docker run <image> 														# запуск в сети по умолчанию (bridge)
+docker run <image> --network=none										# запуск в сети none
+docker run <image> --network=host										# запуск в сети (host)
+docker network create --driver bridge \ --subnet 182.18.0.0/16 <bridge> # создание сети в Docker
+#docker network create --driver bridge \ --subnet 182.18.0.0/16 NET		# example
+docker network ls														# cписок всех сетей
+docker inspect <image>													# просмотр настроек сети; docker inspect webserver
+docker network connect <bridge> <container>								# подключение работающего контейнера с именем <container> к мостовой сети <bridge>;
+#docker network connect NET webapp										# example
+docker network disconnect <bridge> <container> 							# отключение работающего контейнера с именем <container> к мостовой сети <bridge> с именем <name_subnet>;
+#docker network disconnect NET webapp									# example
+docker network prune													# удаление неиспользуемых сетей
