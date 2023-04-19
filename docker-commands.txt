@@ -2,6 +2,11 @@
 #--------------------INTRODUCTION TO DOCKER BY ILYA RUDAKOV------------------------------
 #----------------------------------------------------------------------------------------
 #
+#--------------------DOCKER INSTALL--------------------
+curl -fsSL https://get.docker.com -o get-docker.sh    # загрузка скрипта установки
+sudo chmod +x get-docker.sh                           # права на выполнение
+sudo ./get-docker.sh                                  # запуск скрипта установки docker
+#
 #--------------------AFTER INSTALL DOCKER--------------------
 sudo groupadd docker                    # создание группы docker
 sudo usermod -aG docker $USER           # все команды докер выполняются от sudo
